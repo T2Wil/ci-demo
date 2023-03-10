@@ -1,0 +1,41 @@
+name: CI Pipeline to run lint | unit tests & sonarcloud check
+
+on:
+  pull_request:
+    branches:
+      - main
+      - develop
+    types: [opened, synchronize, reopened]
+  push:
+    branches:
+      - main
+      - develop
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+      
+      - name: Find modified projects
+        run: |
+          touch modified-projects.txt
+          git diff --name-only origin/${GITHUB_HEAD_REF} origin/${GITHUB_BASE_REF} | grep -v -E '^(.github)/' | awk -F '/' '{print $1}' | uniq > modified-projects.txt
+          echo "inside Find modified projects step"
+          cat modified-projects.txt
+
+      - name: Print modified projects
+        run : |
+          # Check if the file is empty
+          if [ -s modified-projects.txt ]; then
+            echo "No modified project found!"
+            exit 0
+          else
+            echo "Below are modified projects:"
+            echo "-----------------------------"
+            cat modified-projects.txt
+          fi
