@@ -23,6 +23,10 @@ jobs:
       
       - name: Find modified projects
         run: |
+          echo "command: git branch"
+          git branch
+          echo "command: git branch -r"
+          git branch -r
           touch modified-projects.txt
           git diff --name-only ${GITHUB_HEAD_REF} ${GITHUB_BASE_REF} | grep -v -E '^(.github)/' | awk -F '/' '{print $1}' | uniq > modified-projects.txt
           echo "command: ls -alh"
