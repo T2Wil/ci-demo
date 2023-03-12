@@ -28,7 +28,7 @@ jobs:
           echo "command: git branch -r"
           git branch -r
           touch modified-projects.txt
-          git diff --name-only ${GITHUB_HEAD_REF} ${GITHUB_BASE_REF} | grep -v -E '^(.github)/' | awk -F '/' '{print $1}' | uniq > modified-projects.txt
+          git diff --name-only origin/${GITHUB_HEAD_REF} origin/${GITHUB_BASE_REF} | grep -v -E '^(.github)/' | awk -F '/' '{print $1}' | uniq > modified-projects.txt
           echo "command: ls -alh"
           ls -alh
           echo "command: pwd"
@@ -44,10 +44,10 @@ jobs:
           pwd
           echo "command: cat modified-projects.txt"
           cat modified-projects.txt
-          # Check if the file is empty
-          if [ -s modified-projects.txt ]; then
+          # Check If the file does not exists and has zero size
+          if ! [ -s modified-projects.txt ]; then
             echo "No modified project found!"
-            exit 0
+            echo 0
           else
             echo "Below are modified projects:"
             echo "-----------------------------"
