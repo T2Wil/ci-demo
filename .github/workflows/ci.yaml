@@ -24,7 +24,7 @@ jobs:
       - name: Find modified projects
         run: |
           touch modified-projects.txt
-          git diff --name-only origin/${GITHUB_HEAD_REF} origin/${GITHUB_BASE_REF} | grep -v -E '^(.github)/' | awk -F '/' '{print $1}' | uniq > modified-projects.txt
+          git diff --name-only ${GITHUB_HEAD_REF} ${GITHUB_BASE_REF} | grep -v -E '^(.github)/' | awk -F '/' '{print $1}' | uniq > modified-projects.txt
           echo "command: ls -alh"
           ls -alh
           echo "command: pwd"
