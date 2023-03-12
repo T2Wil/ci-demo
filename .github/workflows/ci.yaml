@@ -44,10 +44,10 @@ jobs:
           pwd
           echo "command: cat modified-projects.txt"
           cat modified-projects.txt
-          # Check if the file is empty
-          if [ -s modified-projects.txt ]; then
+          # Check If the file does not exists and has zero size
+          if ! [ -s modified-projects.txt ]; then
             echo "No modified project found!"
-            exit 0
+            echo 0
           else
             echo "Below are modified projects:"
             echo "-----------------------------"
